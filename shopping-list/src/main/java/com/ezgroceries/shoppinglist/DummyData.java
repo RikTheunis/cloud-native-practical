@@ -1,6 +1,7 @@
 package com.ezgroceries.shoppinglist;
 
 import com.ezgroceries.shoppinglist.model.CocktailResource;
+import com.ezgroceries.shoppinglist.model.ShoppingListResource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +22,20 @@ public class DummyData {
                         "Rub rim of cocktail glass with lime juice. Dip rim in coarse salt..",
                         "https://www.thecocktaildb.com/images/media/drink/qtvvyq1439905913.jpg",
                         Arrays.asList("Tequila", "Blue Curacao", "Lime juice", "Salt")));
+    }
+
+    public static List<ShoppingListResource> getDummyShoppingListResources() {
+        return Arrays.asList(
+                new ShoppingListResource(
+                        UUID.fromString("4ba92a46-1d1b-4e52-8e38-13cd56c7224c"),
+                        "Stephanie's birthday",
+                        getDummyCocktailResources()),
+                new ShoppingListResource(
+                        UUID.fromString("6c7d09c2-8a25-4d54-a979-25ae779d2465"),
+                        "My Birthday",
+                        getDummyCocktailResources()
+                )
+        );
     }
 
 }
