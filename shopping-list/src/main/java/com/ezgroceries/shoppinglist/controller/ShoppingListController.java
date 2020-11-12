@@ -1,9 +1,15 @@
 package com.ezgroceries.shoppinglist.controller;
 
+import com.ezgroceries.shoppinglist.contract.AddCocktailToShoppingListInputContract;
+import com.ezgroceries.shoppinglist.contract.AddCocktailToShoppingListOutputContract;
 import com.ezgroceries.shoppinglist.contract.CreateNewShoppingListInputContract;
 import com.ezgroceries.shoppinglist.contract.CreateNewShoppingListOutputContract;
+import com.ezgroceries.shoppinglist.executor.AddCocktailToShoppingListExecutor;
 import com.ezgroceries.shoppinglist.executor.CreateNewShoppingListExecutor;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +23,13 @@ public class ShoppingListController {
     public ResponseEntity<CreateNewShoppingListOutputContract> createNewShoppingList(@RequestBody CreateNewShoppingListInputContract input) {
 
         return new CreateNewShoppingListExecutor().invoke(input);
+    }
+
+    @PostMapping(path = "{shoppingListId}/cocktails")
+    public ResponseEntity<List<AddCocktailToShoppingListOutputContract>> addCocktailToShoppingList(@PathVariable UUID shoppingListId,
+            @RequestBody List<AddCocktailToShoppingListInputContract> input) {
+
+        return new AddCocktailToShoppingListExecutor().invoke(shoppingListId, input);
     }
 
 }
