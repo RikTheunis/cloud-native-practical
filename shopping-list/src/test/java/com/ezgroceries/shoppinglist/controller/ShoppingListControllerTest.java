@@ -1,5 +1,6 @@
 package com.ezgroceries.shoppinglist.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -56,6 +57,18 @@ class ShoppingListControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$..cocktailId").exists());
+    }
+
+    @Test
+    void testGetShoppingList() throws Exception {
+        mockMvc.perform(get("/shopping-lists/{shoppingListId}", "eb18bb7c-61f3-4c9f-981c-55b1b8ee8915")
+                .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("shoppingListId").exists())
+                .andExpect(jsonPath("name").exists())
+                .andExpect(jsonPath("ingredients").exists());
     }
 
 }
