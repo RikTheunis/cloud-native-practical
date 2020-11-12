@@ -4,9 +4,11 @@ import com.ezgroceries.shoppinglist.contract.AddCocktailToShoppingListInputContr
 import com.ezgroceries.shoppinglist.contract.AddCocktailToShoppingListOutputContract;
 import com.ezgroceries.shoppinglist.contract.CreateNewShoppingListInputContract;
 import com.ezgroceries.shoppinglist.contract.CreateNewShoppingListOutputContract;
+import com.ezgroceries.shoppinglist.contract.GetAllShoppingListsOutputContract;
 import com.ezgroceries.shoppinglist.contract.GetShoppingListOutputContract;
 import com.ezgroceries.shoppinglist.executor.AddCocktailToShoppingListExecutor;
 import com.ezgroceries.shoppinglist.executor.CreateNewShoppingListExecutor;
+import com.ezgroceries.shoppinglist.executor.GetAllShoppingListsExecutor;
 import com.ezgroceries.shoppinglist.executor.GetShoppingListExecutor;
 import java.util.List;
 import java.util.UUID;
@@ -39,6 +41,12 @@ public class ShoppingListController {
     public ResponseEntity<GetShoppingListOutputContract> getShoppingList(@PathVariable UUID shoppingListId) {
 
         return new GetShoppingListExecutor().invoke(shoppingListId);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GetAllShoppingListsOutputContract>> getAllShoppingLists() {
+
+        return new GetAllShoppingListsExecutor().invoke();
     }
 
 }

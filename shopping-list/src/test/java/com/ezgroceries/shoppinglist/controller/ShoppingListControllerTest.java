@@ -71,4 +71,16 @@ class ShoppingListControllerTest {
                 .andExpect(jsonPath("ingredients").exists());
     }
 
+    @Test
+    void testGetAllShoppingLists() throws Exception {
+        mockMvc.perform(get("/shopping-lists")
+                .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$..shoppingListId").exists())
+                .andExpect(jsonPath("$..name").exists())
+                .andExpect(jsonPath("$..ingredients").exists());
+    }
+
 }
