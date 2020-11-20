@@ -1,22 +1,32 @@
 package com.ezgroceries.shoppinglist.executor;
 
-import com.ezgroceries.shoppinglist.DummyData;
 import com.ezgroceries.shoppinglist.contract.AddCocktailToShoppingListInputContract;
 import com.ezgroceries.shoppinglist.contract.AddCocktailToShoppingListOutputContract;
 import com.ezgroceries.shoppinglist.model.ShoppingListResource;
+import com.ezgroceries.shoppinglist.service.ShoppingListService;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
-public class AddCocktailToShoppingListExecutor {
+@Component
+public class AddCocktailsToShoppingListExecutor {
 
-    public ResponseEntity<List<AddCocktailToShoppingListOutputContract>> invoke(UUID shoppingListId,
+    private final ShoppingListService shoppingListService;
+
+    public AddCocktailsToShoppingListExecutor(ShoppingListService shoppingListService) {
+        this.shoppingListService = shoppingListService;
+    }
+
+    public ResponseEntity<List<AddCocktailToShoppingListOutputContract>> invoke(
+            UUID shoppingListId,
             List<AddCocktailToShoppingListInputContract> input) {
-        ShoppingListResource shoppingList = DummyData.getDummyShoppingListResources().get(0);
+        List<UUID> cocktailIds = input.stream().map(AddCocktailToShoppingListInputContract::getCocktailId).collect(Collectors.toList());
+
+        ShoppingListResource shoppingList = shoppingListService.addCocktailsToShoppingList(shoppingListId, cocktailIds);
 
         List<AddCocktailToShoppingListOutputContract> outputList = shoppingList.getCocktails()
-                .subList(0, 1)
                 .stream()
                 .map(cocktail -> {
                     AddCocktailToShoppingListOutputContract output = new AddCocktailToShoppingListOutputContract();
