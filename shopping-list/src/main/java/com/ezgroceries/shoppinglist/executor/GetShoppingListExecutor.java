@@ -1,16 +1,24 @@
 package com.ezgroceries.shoppinglist.executor;
 
-import com.ezgroceries.shoppinglist.DummyData;
 import com.ezgroceries.shoppinglist.contract.GetShoppingListOutputContract;
 import com.ezgroceries.shoppinglist.model.ShoppingListResource;
+import com.ezgroceries.shoppinglist.service.ShoppingListService;
 import com.ezgroceries.shoppinglist.util.ShoppingListUtil;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GetShoppingListExecutor {
 
+    private final ShoppingListService shoppingListService;
+
+    public GetShoppingListExecutor(ShoppingListService shoppingListService) {
+        this.shoppingListService = shoppingListService;
+    }
+
     public ResponseEntity<GetShoppingListOutputContract> invoke(UUID shoppingListId) {
-        GetShoppingListOutputContract output = fillOutputContract(DummyData.getDummyShoppingListResources().get(0));
+        GetShoppingListOutputContract output = fillOutputContract(shoppingListService.getShoppingList(shoppingListId));
 
         return ResponseEntity.ok(output);
     }

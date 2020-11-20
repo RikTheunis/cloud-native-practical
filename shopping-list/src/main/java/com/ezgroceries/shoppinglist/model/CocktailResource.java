@@ -1,6 +1,6 @@
 package com.ezgroceries.shoppinglist.model;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class CocktailResource {
@@ -10,9 +10,9 @@ public class CocktailResource {
     private String glass;
     private String instructions;
     private String imageUrl;
-    private List<String> ingredients;
+    private Set<String> ingredients;
 
-    public CocktailResource(UUID id, String name, String glass, String instructions, String imageUrl, List<String> ingredients) {
+    public CocktailResource(UUID id, String name, String glass, String instructions, String imageUrl, Set<String> ingredients) {
         this.cocktailId = id;
         this.name = name;
         this.glass = glass;
@@ -41,7 +41,7 @@ public class CocktailResource {
         return imageUrl;
     }
 
-    public List<String> getIngredients() {
+    public Set<String> getIngredients() {
         return ingredients;
     }
 }

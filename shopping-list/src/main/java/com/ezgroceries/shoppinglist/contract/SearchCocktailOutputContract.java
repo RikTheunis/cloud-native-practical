@@ -1,6 +1,6 @@
 package com.ezgroceries.shoppinglist.contract;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class SearchCocktailOutputContract {
@@ -10,7 +10,7 @@ public class SearchCocktailOutputContract {
     private String glass;
     private String instructions;
     private String image;
-    private List<String> ingredients;
+    private Set<String> ingredients;
 
     public UUID getCocktailId() {
         return cocktailId;
@@ -52,11 +52,11 @@ public class SearchCocktailOutputContract {
         this.image = image;
     }
 
-    public List<String> getIngredients() {
+    public Set<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
+    public void setIngredients(Set<String> ingredients) {
         this.ingredients = ingredients;
     }
 }
