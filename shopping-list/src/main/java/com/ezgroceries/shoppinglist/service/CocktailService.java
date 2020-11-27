@@ -1,9 +1,9 @@
 package com.ezgroceries.shoppinglist.service;
 
-import com.ezgroceries.shoppinglist.backend.contract.DrinkResource;
-import com.ezgroceries.shoppinglist.model.CocktailResource;
-import com.ezgroceries.shoppinglist.persistence.entity.Cocktail;
-import com.ezgroceries.shoppinglist.persistence.repository.CocktailRepository;
+import com.ezgroceries.shoppinglist.external.contract.DrinkResource;
+import com.ezgroceries.shoppinglist.service.model.CocktailResource;
+import com.ezgroceries.shoppinglist.data.entity.Cocktail;
+import com.ezgroceries.shoppinglist.data.CocktailRepository;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;

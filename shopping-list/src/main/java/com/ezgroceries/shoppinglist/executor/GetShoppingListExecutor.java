@@ -1,9 +1,9 @@
 package com.ezgroceries.shoppinglist.executor;
 
-import com.ezgroceries.shoppinglist.contract.GetShoppingListOutputContract;
-import com.ezgroceries.shoppinglist.model.ShoppingListResource;
+import com.ezgroceries.shoppinglist.web.contract.GetShoppingListOutputContract;
+import com.ezgroceries.shoppinglist.service.model.ShoppingListResource;
 import com.ezgroceries.shoppinglist.service.ShoppingListService;
-import com.ezgroceries.shoppinglist.util.ShoppingListUtil;
+import com.ezgroceries.shoppinglist.service.util.ShoppingListUtil;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;

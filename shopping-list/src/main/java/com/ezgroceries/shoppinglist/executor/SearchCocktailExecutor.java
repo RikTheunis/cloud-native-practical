@@ -1,9 +1,9 @@
 package com.ezgroceries.shoppinglist.executor;
 
-import com.ezgroceries.shoppinglist.backend.client.CocktailDBClient;
-import com.ezgroceries.shoppinglist.backend.contract.CocktailDBSearchOutputContract;
-import com.ezgroceries.shoppinglist.contract.SearchCocktailOutputContract;
-import com.ezgroceries.shoppinglist.model.CocktailResource;
+import com.ezgroceries.shoppinglist.external.client.CocktailDBClient;
+import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchOutputContract;
+import com.ezgroceries.shoppinglist.web.contract.SearchCocktailOutputContract;
+import com.ezgroceries.shoppinglist.service.model.CocktailResource;
 import com.ezgroceries.shoppinglist.service.CocktailService;
 import java.util.List;
 import java.util.stream.Collectors;

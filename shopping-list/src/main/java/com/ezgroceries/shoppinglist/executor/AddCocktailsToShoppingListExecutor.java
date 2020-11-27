@@ -1,8 +1,8 @@
 package com.ezgroceries.shoppinglist.executor;
 
-import com.ezgroceries.shoppinglist.contract.AddCocktailToShoppingListInputContract;
-import com.ezgroceries.shoppinglist.contract.AddCocktailToShoppingListOutputContract;
-import com.ezgroceries.shoppinglist.model.ShoppingListResource;
+import com.ezgroceries.shoppinglist.web.contract.AddCocktailToShoppingListInputContract;
+import com.ezgroceries.shoppinglist.web.contract.AddCocktailToShoppingListOutputContract;
+import com.ezgroceries.shoppinglist.service.model.ShoppingListResource;
 import com.ezgroceries.shoppinglist.service.ShoppingListService;
 import java.util.List;
 import java.util.UUID;

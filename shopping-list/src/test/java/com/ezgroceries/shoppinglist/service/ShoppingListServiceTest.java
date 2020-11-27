@@ -1,7 +1,5 @@
 package com.ezgroceries.shoppinglist.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 
 class ShoppingListServiceTest {
