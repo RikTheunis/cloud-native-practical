@@ -1,8 +1,12 @@
 package com.ezgroceries.shoppinglist.web.controller;
 
+import com.ezgroceries.shoppinglist.external.client.CocktailDBClient;
+import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchOutputContract;
+import com.ezgroceries.shoppinglist.service.CocktailService;
+import com.ezgroceries.shoppinglist.service.model.CocktailResource;
 import com.ezgroceries.shoppinglist.web.contract.SearchCocktailOutputContract;
-import com.ezgroceries.shoppinglist.executor.SearchCocktailExecutor;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,15 +17,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/cocktails", produces = "application/json")
 public class CocktailController {
 
-    private final SearchCocktailExecutor searchCocktailExecutor;
+    private final CocktailService cocktailService;
+    private final CocktailDBClient cocktailDBClient;
 
-    public CocktailController(SearchCocktailExecutor searchCocktailExecutor) {
-        this.searchCocktailExecutor = searchCocktailExecutor;
+    public CocktailController(CocktailService cocktailService, CocktailDBClient cocktailDBClient) {
+        this.cocktailService = cocktailService;
+        this.cocktailDBClient = cocktailDBClient;
     }
 
     @GetMapping
     public ResponseEntity<List<SearchCocktailOutputContract>> get(@RequestParam String search) {
-        return searchCocktailExecutor.invoke(search);
+        CocktailDBSearchOutputContract cocktailDBSearchOutput = cocktailDBClient.searchCocktails(search);
+
+        List<CocktailResource> cocktailResources = cocktailService.mergeCocktails(cocktailDBSearchOutput.getDrinks());
+        List<SearchCocktailOutputContract> outputList = cocktailResources.stream()
+                .map(cocktail -> {
+                    SearchCocktailOutputContract output = new SearchCocktailOutputContract();
+
+                    output.setCocktailId(cocktail.getCocktailId());
+                    output.setName(cocktail.getName());
+                    output.setGlass(cocktail.getGlass());
+                    output.setImage(cocktail.getImageUrl());
+                    output.setInstructions(cocktail.getInstructions());
+                    output.setIngredients(cocktail.getIngredients());
+
+                    return output;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(outputList);
     }
 
 }
