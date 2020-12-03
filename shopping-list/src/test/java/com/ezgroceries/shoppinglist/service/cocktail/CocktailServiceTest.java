@@ -1,11 +1,8 @@
-package com.ezgroceries.shoppinglist.service;
+package com.ezgroceries.shoppinglist.service.cocktail;
 
 import org.junit.jupiter.api.Test;
 
-class ShoppingListServiceTest {
-
-    
-
+class CocktailServiceTest {
 
     @Test
     void createEmpty() {
