@@ -23,6 +23,12 @@ public class Cocktail {
 
     private String name;
 
+    private String glass;
+
+    private String instructions;
+
+    private String imageUrl;
+
     @Convert(converter = StringSetConverter.class)
     private Set<String> ingredients;
 
@@ -51,6 +57,30 @@ public class Cocktail {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getGlass() {
+        return glass;
+    }
+
+    public void setGlass(String glass) {
+        this.glass = glass;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Set<String> getIngredients() {
