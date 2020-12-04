@@ -18,18 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class CocktailController {
 
     private final CocktailService cocktailService;
-    private final CocktailDBClient cocktailDBClient;
 
-    public CocktailController(CocktailService cocktailService, CocktailDBClient cocktailDBClient) {
+    public CocktailController(CocktailService cocktailService) {
         this.cocktailService = cocktailService;
-        this.cocktailDBClient = cocktailDBClient;
     }
 
     @GetMapping
-    public ResponseEntity<List<SearchCocktailOutputContract>> get(@RequestParam String search) {
-        CocktailDBSearchOutputContract cocktailDBSearchOutput = cocktailDBClient.searchCocktails(search);
+    public ResponseEntity<List<SearchCocktailOutputContract>> search(@RequestParam String search) {
+        List<CocktailResource> cocktailResources = cocktailService.searchCocktails(search);
 
-        List<CocktailResource> cocktailResources = cocktailService.mergeCocktails(cocktailDBSearchOutput.getDrinks());
         List<SearchCocktailOutputContract> outputList = cocktailResources.stream()
                 .map(cocktail -> {
                     SearchCocktailOutputContract output = new SearchCocktailOutputContract();

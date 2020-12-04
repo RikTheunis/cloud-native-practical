@@ -1,5 +1,7 @@
 package com.ezgroceries.shoppinglist.service.cocktail;
 
+import com.ezgroceries.shoppinglist.external.client.CocktailDBClient;
+import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchOutputContract;
 import com.ezgroceries.shoppinglist.external.contract.DrinkResource;
 import com.ezgroceries.shoppinglist.service.cocktail.model.CocktailResource;
 import com.ezgroceries.shoppinglist.repository.cocktail.entity.Cocktail;
@@ -16,13 +18,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class CocktailService {
 
+    private final CocktailDBClient cocktailDBClient;
     private final CocktailRepository cocktailRepository;
 
-    public CocktailService(CocktailRepository cocktailRepository) {
+    public CocktailService(CocktailRepository cocktailRepository, CocktailDBClient cocktailDBClient) {
         this.cocktailRepository = cocktailRepository;
+        this.cocktailDBClient = cocktailDBClient;
     }
 
-    public List<CocktailResource> mergeCocktails(List<DrinkResource> drinks) {
+    public List<CocktailResource> searchCocktails(String search) {
+        CocktailDBSearchOutputContract cocktailDBSearchOutput = cocktailDBClient.searchCocktails(search);
+        return this.mergeCocktails(cocktailDBSearchOutput.getDrinks());
+    }
+
+    private List<CocktailResource> mergeCocktails(List<DrinkResource> drinks) {
         //Get all the idDrink attributes
         List<String> ids = drinks.stream().map(DrinkResource::getIdDrink).collect(Collectors.toList());
 
