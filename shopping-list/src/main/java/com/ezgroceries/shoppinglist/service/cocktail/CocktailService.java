@@ -46,6 +46,9 @@ public class CocktailService {
                 newCocktail.setId(UUID.randomUUID());
                 newCocktail.setIdDrink(drinkResource.getIdDrink());
                 newCocktail.setName(drinkResource.getStrDrink());
+                newCocktail.setGlass(drinkResource.getStrGlass());
+                newCocktail.setInstructions(drinkResource.getStrInstructions());
+                newCocktail.setImageUrl(drinkResource.getStrDrinkThumb());
                 newCocktail.setIngredients(extractIngredientsFromDrink(drinkResource));
                 cocktail = cocktailRepository.save(newCocktail);
             }
@@ -57,8 +60,16 @@ public class CocktailService {
     }
 
     private List<CocktailResource> mergeAndTransform(List<DrinkResource> drinks, Map<String, Cocktail> allEntityMap) {
-        return drinks.stream().map(drinkResource -> new CocktailResource(allEntityMap.get(drinkResource.getIdDrink()).getId(), drinkResource.getStrDrink(), drinkResource.getStrGlass(),
-                drinkResource.getStrInstructions(), drinkResource.getStrDrinkThumb(), extractIngredientsFromDrink(drinkResource))).collect(Collectors.toList());
+        return drinks
+                .stream()
+                .map(drinkResource -> new CocktailResource(
+                        allEntityMap.get(drinkResource.getIdDrink()).getId(),
+                        drinkResource.getStrDrink(),
+                        drinkResource.getStrGlass(),
+                        drinkResource.getStrInstructions(),
+                        drinkResource.getStrDrinkThumb(),
+                        extractIngredientsFromDrink(drinkResource)
+                )).collect(Collectors.toList());
     }
 
     private static Set<String> extractIngredientsFromDrink(DrinkResource drink) {
