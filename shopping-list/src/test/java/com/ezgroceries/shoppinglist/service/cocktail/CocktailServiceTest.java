@@ -9,11 +9,8 @@ import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchOutputCont
 import com.ezgroceries.shoppinglist.external.contract.DrinkResource;
 import com.ezgroceries.shoppinglist.repository.cocktail.CocktailRepository;
 import com.ezgroceries.shoppinglist.repository.cocktail.entity.Cocktail;
-import com.ezgroceries.shoppinglist.repository.shoppinglist.ShoppingListRepository;
 import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingList;
 import com.ezgroceries.shoppinglist.service.cocktail.model.CocktailResource;
-import com.ezgroceries.shoppinglist.service.shoppinglist.ShoppingListService;
-import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingListResource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;

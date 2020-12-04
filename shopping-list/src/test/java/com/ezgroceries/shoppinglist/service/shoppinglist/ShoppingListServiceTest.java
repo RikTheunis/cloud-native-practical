@@ -1,7 +1,6 @@
 package com.ezgroceries.shoppinglist.service.shoppinglist;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -12,7 +11,6 @@ import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingList;
 import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingListResource;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

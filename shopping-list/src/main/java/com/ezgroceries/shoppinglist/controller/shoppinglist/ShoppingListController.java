@@ -1,14 +1,14 @@
 package com.ezgroceries.shoppinglist.controller.shoppinglist;
 
-import com.ezgroceries.shoppinglist.service.shoppinglist.ShoppingListService;
-import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingListResource;
-import com.ezgroceries.shoppinglist.service.shoppinglist.util.ShoppingListUtil;
 import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.AddCocktailToShoppingListInputContract;
 import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.AddCocktailToShoppingListOutputContract;
 import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.CreateNewShoppingListInputContract;
 import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.CreateNewShoppingListOutputContract;
 import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.GetAllShoppingListsOutputContract;
 import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.GetShoppingListOutputContract;
+import com.ezgroceries.shoppinglist.service.shoppinglist.ShoppingListService;
+import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingListResource;
+import com.ezgroceries.shoppinglist.service.shoppinglist.util.ShoppingListUtil;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

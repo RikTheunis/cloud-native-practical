@@ -1,11 +1,11 @@
 package com.ezgroceries.shoppinglist.service.shoppinglist;
 
+import com.ezgroceries.shoppinglist.repository.cocktail.CocktailRepository;
+import com.ezgroceries.shoppinglist.repository.cocktail.entity.Cocktail;
+import com.ezgroceries.shoppinglist.repository.shoppinglist.ShoppingListRepository;
+import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingList;
 import com.ezgroceries.shoppinglist.service.cocktail.model.CocktailResource;
 import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingListResource;
-import com.ezgroceries.shoppinglist.repository.cocktail.entity.Cocktail;
-import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingList;
-import com.ezgroceries.shoppinglist.repository.cocktail.CocktailRepository;
-import com.ezgroceries.shoppinglist.repository.shoppinglist.ShoppingListRepository;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;

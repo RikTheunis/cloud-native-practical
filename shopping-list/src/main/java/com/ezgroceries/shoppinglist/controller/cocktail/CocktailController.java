@@ -1,10 +1,8 @@
 package com.ezgroceries.shoppinglist.controller.cocktail;
 
-import com.ezgroceries.shoppinglist.external.client.CocktailDBClient;
-import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchOutputContract;
+import com.ezgroceries.shoppinglist.controller.cocktail.contract.SearchCocktailOutputContract;
 import com.ezgroceries.shoppinglist.service.cocktail.CocktailService;
 import com.ezgroceries.shoppinglist.service.cocktail.model.CocktailResource;
-import com.ezgroceries.shoppinglist.controller.cocktail.contract.SearchCocktailOutputContract;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
