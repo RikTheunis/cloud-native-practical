@@ -9,6 +9,7 @@ import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.GetShopping
 import com.ezgroceries.shoppinglist.service.shoppinglist.ShoppingListService;
 import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingListResource;
 import com.ezgroceries.shoppinglist.service.shoppinglist.util.ShoppingListUtil;
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,8 +33,11 @@ public class ShoppingListController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateNewShoppingListOutputContract> createNewShoppingList(@RequestBody CreateNewShoppingListInputContract input) {
-        ShoppingListResource shoppingList = shoppingListService.createEmpty(input.getName());
+    public ResponseEntity<CreateNewShoppingListOutputContract> createNewShoppingList(
+            @RequestBody CreateNewShoppingListInputContract input,
+            Principal principal
+    ) {
+        ShoppingListResource shoppingList = shoppingListService.createEmptyShoppingList(input.getName(), principal.getName());
 
         CreateNewShoppingListOutputContract output = new CreateNewShoppingListOutputContract();
         output.setName(shoppingList.getName());
