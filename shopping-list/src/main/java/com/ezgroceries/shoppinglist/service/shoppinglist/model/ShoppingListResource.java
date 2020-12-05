@@ -9,17 +9,20 @@ public class ShoppingListResource {
 
     private UUID shoppingListId;
     private String name;
+    private String ownerName;
     private Set<CocktailResource> cocktails;
 
-    public ShoppingListResource(UUID shoppingListId, String name) {
+    public ShoppingListResource(UUID shoppingListId, String name, String ownerName) {
         this.shoppingListId = shoppingListId;
         this.name = name;
+        this.ownerName = ownerName;
         this.cocktails = new HashSet<>();
     }
 
-    public ShoppingListResource(UUID shoppingListId, String name, Set<CocktailResource> cocktails) {
+    public ShoppingListResource(UUID shoppingListId, String name, String ownerName, Set<CocktailResource> cocktails) {
         this.shoppingListId = shoppingListId;
         this.name = name;
+        this.ownerName = name;
         this.cocktails = cocktails;
     }
 
@@ -37,6 +40,14 @@ public class ShoppingListResource {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public Set<CocktailResource> getCocktails() {

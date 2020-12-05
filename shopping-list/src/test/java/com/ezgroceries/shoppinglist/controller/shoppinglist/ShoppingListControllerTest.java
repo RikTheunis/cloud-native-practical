@@ -22,9 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(ShoppingListController.class)
+@ActiveProfiles("test")
 class ShoppingListControllerTest {
 
     @Autowired
@@ -37,13 +40,15 @@ class ShoppingListControllerTest {
     ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser(username="testOwner")
     void testCreateShoppingList() throws Exception {
         final UUID SHOPPING_LIST_ID = UUID.fromString("97c8e5bd-5353-426e-b57b-69eb2260ace3");
         final String SHOPPING_LIST_NAME = "Stephanie's birthday";
+        final String SHOPPING_LIST_OWNER_NAME = "testOwner";
 
         // mock service layer
-        final ShoppingListResource mockResource = new ShoppingListResource(SHOPPING_LIST_ID, SHOPPING_LIST_NAME);
-        when(shoppingListService.createEmpty(SHOPPING_LIST_NAME)).thenReturn(mockResource);
+        final ShoppingListResource mockResource = new ShoppingListResource(SHOPPING_LIST_ID, SHOPPING_LIST_NAME, SHOPPING_LIST_OWNER_NAME);
+        when(shoppingListService.createEmptyShoppingList(SHOPPING_LIST_NAME, "testOwner")).thenReturn(mockResource);
 
         // create test input
         CreateNewShoppingListInputContract inputContract = new CreateNewShoppingListInputContract();
@@ -61,9 +66,11 @@ class ShoppingListControllerTest {
     }
 
     @Test
+    @WithMockUser(username="testOwner")
     void testAddCocktailToShoppingList() throws Exception {
         final UUID SHOPPING_LIST_ID = UUID.fromString("97c8e5bd-5353-426e-b57b-69eb2260ace3");
         final String SHOPPING_LIST_NAME = "Stephanie's birthday";
+        final String SHOPPING_LIST_OWNER_NAME = "testOwner";
 
         final CocktailResource cocktailResource = new CocktailResource(
                 UUID.fromString("23b3d85a-3928-41c0-a533-6538a71e17c4"),
@@ -75,7 +82,7 @@ class ShoppingListControllerTest {
         );
 
         // mock service layer
-        final ShoppingListResource mockResource = new ShoppingListResource(SHOPPING_LIST_ID, SHOPPING_LIST_NAME);
+        final ShoppingListResource mockResource = new ShoppingListResource(SHOPPING_LIST_ID, SHOPPING_LIST_NAME, SHOPPING_LIST_OWNER_NAME);
         mockResource.setCocktails(new HashSet<>(Arrays.asList(cocktailResource)));
         when(shoppingListService.addCocktailsToShoppingList(SHOPPING_LIST_ID, Arrays.asList(UUID.fromString("23b3d85a-3928-41c0-a533-6538a71e17c4")))).thenReturn(mockResource);
 
@@ -95,12 +102,14 @@ class ShoppingListControllerTest {
     }
 
     @Test
+    @WithMockUser(username="testOwner")
     void testGetShoppingList() throws Exception {
         final UUID SHOPPING_LIST_ID = UUID.fromString("97c8e5bd-5353-426e-b57b-69eb2260ace3");
         final String SHOPPING_LIST_NAME = "Stephanie's birthday";
+        final String SHOPPING_LIST_OWNER_NAME = "testOwner";
 
         // mock service layer
-        final ShoppingListResource mockResource = new ShoppingListResource(SHOPPING_LIST_ID, SHOPPING_LIST_NAME);
+        final ShoppingListResource mockResource = new ShoppingListResource(SHOPPING_LIST_ID, SHOPPING_LIST_NAME, SHOPPING_LIST_OWNER_NAME);
         when(shoppingListService.getShoppingList(SHOPPING_LIST_ID)).thenReturn(mockResource);
 
         mockMvc.perform(get("/shopping-lists/{shoppingListId}", SHOPPING_LIST_ID)
@@ -114,16 +123,19 @@ class ShoppingListControllerTest {
     }
 
     @Test
+    @WithMockUser(username="testOwner")
     void testGetAllShoppingLists() throws Exception {
         final UUID SHOPPING_LIST_ID_1 = UUID.fromString("97c8e5bd-5353-426e-b57b-69eb2260ace3");
         final String SHOPPING_LIST_NAME_1 = "Stephanie's birthday";
+        final String SHOPPING_LIST_OWNER_NAME_1 = "testOwner1";
 
         final UUID SHOPPING_LIST_ID_2 = UUID.fromString("97c8e5bd-5353-426e-b57b-69eb2260ace3");
         final String SHOPPING_LIST_NAME_2 = "Stephanie's birthday";
+        final String SHOPPING_LIST_OWNER_NAME_2 = "testOwner2";
 
         final List<ShoppingListResource> mockResources = Arrays.asList(
-                new ShoppingListResource(SHOPPING_LIST_ID_1, SHOPPING_LIST_NAME_1),
-                new ShoppingListResource(SHOPPING_LIST_ID_2, SHOPPING_LIST_NAME_2)
+                new ShoppingListResource(SHOPPING_LIST_ID_1, SHOPPING_LIST_NAME_1, SHOPPING_LIST_OWNER_NAME_1),
+                new ShoppingListResource(SHOPPING_LIST_ID_2, SHOPPING_LIST_NAME_2, SHOPPING_LIST_OWNER_NAME_2)
         );
 
         // mock service layer
@@ -138,6 +150,16 @@ class ShoppingListControllerTest {
                 .andExpect(jsonPath("$..shoppingListId").exists())
                 .andExpect(jsonPath("$..name").exists())
                 .andExpect(jsonPath("$..ingredients").exists());
+    }
+
+    @Test
+    void testGetAllShoppingListsNotAuthenticated() throws Exception {
+
+        // perform test
+        mockMvc.perform(get("/shopping-lists")
+                .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isUnauthorized());
     }
 
 }

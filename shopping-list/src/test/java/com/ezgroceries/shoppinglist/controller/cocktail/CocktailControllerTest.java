@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@ActiveProfiles({"hsqldb"})
+@ActiveProfiles({"hsqldb", "test"})
 class CocktailControllerTest {
 
     @Autowired

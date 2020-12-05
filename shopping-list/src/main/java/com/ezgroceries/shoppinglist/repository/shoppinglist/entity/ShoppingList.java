@@ -21,6 +21,8 @@ public class ShoppingList {
 
     private String name;
 
+    private String ownerName;
+
     @ManyToMany()
     @JoinTable(
             name = "cocktail_shopping_list",
@@ -43,6 +45,14 @@ public class ShoppingList {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public Set<Cocktail> getCocktails() {

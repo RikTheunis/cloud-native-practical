@@ -40,7 +40,7 @@ class ShoppingListServiceTest {
         when(shoppingListRepository.save(any(ShoppingList.class))).thenReturn(mockShoppingList);
 
         // perform call
-        ShoppingListResource actualShoppingListResource = shoppingListService.createEmpty("Testname");
+        ShoppingListResource actualShoppingListResource = shoppingListService.createEmptyShoppingList("Testname", "testUser");
 
         // verify
         assertEquals(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"), actualShoppingListResource.getShoppingListId());
