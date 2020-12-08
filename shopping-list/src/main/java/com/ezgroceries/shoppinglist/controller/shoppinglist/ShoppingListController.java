@@ -1,13 +1,13 @@
 package com.ezgroceries.shoppinglist.controller.shoppinglist;
 
-import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.AddCocktailToShoppingListInputContract;
-import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.AddCocktailToShoppingListOutputContract;
-import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.CreateNewShoppingListInputContract;
-import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.CreateNewShoppingListOutputContract;
-import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.GetAllShoppingListsOutputContract;
-import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.GetShoppingListOutputContract;
+import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.AddCocktailToShoppingListRequest;
+import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.AddCocktailToShoppingListResponse;
+import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.CreateNewShoppingListRequest;
+import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.CreateNewShoppingListResponse;
+import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.GetAllShoppingListsResponse;
+import com.ezgroceries.shoppinglist.controller.shoppinglist.contract.GetShoppingListResponse;
 import com.ezgroceries.shoppinglist.service.shoppinglist.ShoppingListService;
-import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingListResource;
+import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingList;
 import com.ezgroceries.shoppinglist.service.shoppinglist.util.ShoppingListUtil;
 import java.security.Principal;
 import java.util.List;
@@ -33,13 +33,13 @@ public class ShoppingListController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateNewShoppingListOutputContract> createNewShoppingList(
-            @RequestBody CreateNewShoppingListInputContract input,
+    public ResponseEntity<CreateNewShoppingListResponse> createNewShoppingList(
+            @RequestBody CreateNewShoppingListRequest input,
             Principal principal
     ) {
-        ShoppingListResource shoppingList = shoppingListService.createEmptyShoppingList(input.getName(), principal.getName());
+        ShoppingList shoppingList = shoppingListService.createEmptyShoppingList(input.getName(), principal.getName());
 
-        CreateNewShoppingListOutputContract output = new CreateNewShoppingListOutputContract();
+        CreateNewShoppingListResponse output = new CreateNewShoppingListResponse();
         output.setName(shoppingList.getName());
         output.setShoppingListId(shoppingList.getShoppingListId());
 
@@ -47,18 +47,18 @@ public class ShoppingListController {
     }
 
     @PostMapping(path = "{shoppingListId}/cocktails")
-    public ResponseEntity<List<AddCocktailToShoppingListOutputContract>> addCocktailToShoppingList(
+    public ResponseEntity<List<AddCocktailToShoppingListResponse>> addCocktailToShoppingList(
             @PathVariable UUID shoppingListId,
-            @RequestBody List<AddCocktailToShoppingListInputContract> input
+            @RequestBody List<AddCocktailToShoppingListRequest> input
     ) {
-        List<UUID> cocktailIds = input.stream().map(AddCocktailToShoppingListInputContract::getCocktailId).collect(Collectors.toList());
+        List<UUID> cocktailIds = input.stream().map(AddCocktailToShoppingListRequest::getCocktailId).collect(Collectors.toList());
 
-        ShoppingListResource shoppingList = shoppingListService.addCocktailsToShoppingList(shoppingListId, cocktailIds);
+        ShoppingList shoppingList = shoppingListService.addCocktailsToShoppingList(shoppingListId, cocktailIds);
 
-        List<AddCocktailToShoppingListOutputContract> outputList = shoppingList.getCocktails()
+        List<AddCocktailToShoppingListResponse> outputList = shoppingList.getCocktails()
                 .stream()
                 .map(cocktail -> {
-                    AddCocktailToShoppingListOutputContract output = new AddCocktailToShoppingListOutputContract();
+                    AddCocktailToShoppingListResponse output = new AddCocktailToShoppingListResponse();
                     output.setCocktailId(cocktail.getCocktailId());
                     return output;
                 })
@@ -68,10 +68,10 @@ public class ShoppingListController {
     }
 
     @GetMapping(path = "{shoppingListId}")
-    public ResponseEntity<GetShoppingListOutputContract> getShoppingList(@PathVariable UUID shoppingListId) {
-        ShoppingListResource shoppingList = shoppingListService.getShoppingList(shoppingListId);
+    public ResponseEntity<GetShoppingListResponse> getShoppingList(@PathVariable UUID shoppingListId) {
+        ShoppingList shoppingList = shoppingListService.getShoppingList(shoppingListId);
 
-        GetShoppingListOutputContract output = new GetShoppingListOutputContract();
+        GetShoppingListResponse output = new GetShoppingListResponse();
 
         output.setShoppingListId(shoppingList.getShoppingListId());
         output.setName(shoppingList.getName());
@@ -81,10 +81,10 @@ public class ShoppingListController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetAllShoppingListsOutputContract>> getAllShoppingLists() {
-        List<GetAllShoppingListsOutputContract> outputList = shoppingListService.findAll().stream()
+    public ResponseEntity<List<GetAllShoppingListsResponse>> getAllShoppingLists() {
+        List<GetAllShoppingListsResponse> outputList = shoppingListService.findAll().stream()
                 .map(shoppingList -> {
-                    GetAllShoppingListsOutputContract output = new GetAllShoppingListsOutputContract();
+                    GetAllShoppingListsResponse output = new GetAllShoppingListsResponse();
                     output.setShoppingListId(shoppingList.getShoppingListId());
                     output.setName(shoppingList.getName());
                     output.setIngredients(ShoppingListUtil.getAllIngredients(shoppingList));

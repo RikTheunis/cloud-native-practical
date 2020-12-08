@@ -5,12 +5,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.ezgroceries.shoppinglist.external.client.CocktailDBClient;
-import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchOutputContract;
+import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchResponse;
 import com.ezgroceries.shoppinglist.external.contract.DrinkResource;
 import com.ezgroceries.shoppinglist.repository.cocktail.CocktailRepository;
-import com.ezgroceries.shoppinglist.repository.cocktail.entity.Cocktail;
-import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingList;
-import com.ezgroceries.shoppinglist.service.cocktail.model.CocktailResource;
+import com.ezgroceries.shoppinglist.repository.cocktail.entity.CocktailEntity;
+import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingListEntity;
+import com.ezgroceries.shoppinglist.service.cocktail.model.Cocktail;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -37,9 +37,9 @@ class CocktailServiceTest {
 
     @Test
     void searchCocktails() {
-        ShoppingList mockShoppingList = new ShoppingList();
-        mockShoppingList.setId(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"));
-        mockShoppingList.setName("Testname");
+        ShoppingListEntity mockShoppingListEntity = new ShoppingListEntity();
+        mockShoppingListEntity.setId(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"));
+        mockShoppingListEntity.setName("Testname");
 
         DrinkResource drinkResource = new DrinkResource();
         drinkResource.setIdDrink("TestId");
@@ -51,36 +51,36 @@ class CocktailServiceTest {
         drinkResource.setStrGlass("TestGlass");
         drinkResource.setStrInstructions("TestInstructions");
 
-        Cocktail mockCocktail = new Cocktail();
-        mockCocktail.setId(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"));
-        mockCocktail.setIdDrink("TestId");
-        mockCocktail.setName("TestName");
+        CocktailEntity mockCocktailEntity = new CocktailEntity();
+        mockCocktailEntity.setId(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"));
+        mockCocktailEntity.setIdDrink("TestId");
+        mockCocktailEntity.setName("TestName");
         Set<String> ingredients = new HashSet<>();
         ingredients.add("TestIngredient1");
         ingredients.add("TestIngredient2");
         ingredients.add("TestIngredient3");
 
-        mockCocktail.setIngredients(ingredients);
+        mockCocktailEntity.setIngredients(ingredients);
 
 
-        CocktailDBSearchOutputContract cocktailDBMockSearchOutputContract = new CocktailDBSearchOutputContract();
+        CocktailDBSearchResponse cocktailDBMockSearchOutputContract = new CocktailDBSearchResponse();
         cocktailDBMockSearchOutputContract.setDrinks(Arrays.asList(drinkResource));
 
         // mock
         when(cocktailDBClient.searchCocktails("Test")).thenReturn(cocktailDBMockSearchOutputContract);
         when(cocktailRepository.findByIdDrinkIn(Arrays.asList("TestId"))).thenReturn(new ArrayList<>());
-        when(cocktailRepository.save(any(Cocktail.class))).thenReturn(mockCocktail);
+        when(cocktailRepository.save(any(CocktailEntity.class))).thenReturn(mockCocktailEntity);
 
         // perform call
-        List<CocktailResource> cocktailResourceList = cocktailService.searchCocktails("Test");
+        List<Cocktail> cocktailList = cocktailService.searchCocktails("Test");
 
         // verify
-        assertEquals(1, cocktailResourceList.size());
+        assertEquals(1, cocktailList.size());
 
         // verify
-        CocktailResource cocktailResource = cocktailResourceList.get(0);
-        assertEquals(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"), cocktailResource.getCocktailId());
-        assertEquals("TestName", cocktailResource.getName());
+        Cocktail cocktail = cocktailList.get(0);
+        assertEquals(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"), cocktail.getCocktailId());
+        assertEquals("TestName", cocktail.getName());
     }
 
 }

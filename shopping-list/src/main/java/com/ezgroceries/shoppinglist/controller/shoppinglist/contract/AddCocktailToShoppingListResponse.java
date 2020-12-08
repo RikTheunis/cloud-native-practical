@@ -2,7 +2,7 @@ package com.ezgroceries.shoppinglist.controller.shoppinglist.contract;
 
 import java.util.UUID;
 
-public class AddCocktailToShoppingListInputContract {
+public class AddCocktailToShoppingListResponse {
 
     private UUID cocktailId;
 
@@ -10,7 +10,7 @@ public class AddCocktailToShoppingListInputContract {
         return cocktailId;
     }
 
-    public void setCocktailId(UUID search) {
-        this.cocktailId = search;
+    public void setCocktailId(UUID cocktailId) {
+        this.cocktailId = cocktailId;
     }
 }

@@ -1,6 +1,6 @@
 package com.ezgroceries.shoppinglist.repository.shoppinglist.entity;
 
-import com.ezgroceries.shoppinglist.repository.cocktail.entity.Cocktail;
+import com.ezgroceries.shoppinglist.repository.cocktail.entity.CocktailEntity;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Entity;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "shopping_list")
-public class ShoppingList {
+public class ShoppingListEntity {
 
     @Id
     @GeneratedValue
@@ -29,7 +29,7 @@ public class ShoppingList {
             joinColumns = @JoinColumn(name = "shopping_list_id"),
             inverseJoinColumns = @JoinColumn(name = "cocktail_id")
     )
-    private Set<Cocktail> cocktails;
+    private Set<CocktailEntity> cocktails;
 
     public UUID getId() {
         return id;
@@ -55,11 +55,11 @@ public class ShoppingList {
         this.ownerName = ownerName;
     }
 
-    public Set<Cocktail> getCocktails() {
+    public Set<CocktailEntity> getCocktails() {
         return cocktails;
     }
 
-    public void setCocktails(Set<Cocktail> cocktails) {
-        this.cocktails = cocktails;
+    public void setCocktails(Set<CocktailEntity> cocktailEntities) {
+        this.cocktails = cocktailEntities;
     }
 }

@@ -1,11 +1,11 @@
 package com.ezgroceries.shoppinglist.service.cocktail;
 
 import com.ezgroceries.shoppinglist.external.client.CocktailDBClient;
-import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchOutputContract;
+import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchResponse;
 import com.ezgroceries.shoppinglist.external.contract.DrinkResource;
 import com.ezgroceries.shoppinglist.repository.cocktail.CocktailRepository;
-import com.ezgroceries.shoppinglist.repository.cocktail.entity.Cocktail;
-import com.ezgroceries.shoppinglist.service.cocktail.model.CocktailResource;
+import com.ezgroceries.shoppinglist.repository.cocktail.entity.CocktailEntity;
+import com.ezgroceries.shoppinglist.service.cocktail.model.Cocktail;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -26,43 +26,43 @@ public class CocktailService {
         this.cocktailDBClient = cocktailDBClient;
     }
 
-    public List<CocktailResource> searchCocktails(String search) {
-        CocktailDBSearchOutputContract cocktailDBSearchOutput = cocktailDBClient.searchCocktails(search);
+    public List<Cocktail> searchCocktails(String search) {
+        CocktailDBSearchResponse cocktailDBSearchOutput = cocktailDBClient.searchCocktails(search);
         return this.mergeCocktails(cocktailDBSearchOutput.getDrinks());
     }
 
-    private List<CocktailResource> mergeCocktails(List<DrinkResource> drinks) {
+    private List<Cocktail> mergeCocktails(List<DrinkResource> drinks) {
         //Get all the idDrink attributes
         List<String> ids = drinks.stream().map(DrinkResource::getIdDrink).collect(Collectors.toList());
 
         //Get all the ones we already have from our DB, use a Map for convenient lookup
-        Map<String, Cocktail> existingEntityMap = cocktailRepository.findByIdDrinkIn(ids).stream().collect(Collectors.toMap(Cocktail::getIdDrink, o -> o, (o, o2) -> o));
+        Map<String, CocktailEntity> existingEntityMap = cocktailRepository.findByIdDrinkIn(ids).stream().collect(Collectors.toMap(CocktailEntity::getIdDrink, o -> o, (o, o2) -> o));
 
         //Stream over all the drinks, map them to the existing ones, persist a new one if not existing
-        Map<String, Cocktail> allEntityMap = drinks.stream().map(drinkResource -> {
-            Cocktail cocktail = existingEntityMap.get(drinkResource.getIdDrink());
-            if (cocktail == null) {
-                Cocktail newCocktail = new Cocktail();
-                newCocktail.setId(UUID.randomUUID());
-                newCocktail.setIdDrink(drinkResource.getIdDrink());
-                newCocktail.setName(drinkResource.getStrDrink());
-                newCocktail.setGlass(drinkResource.getStrGlass());
-                newCocktail.setInstructions(drinkResource.getStrInstructions());
-                newCocktail.setImageUrl(drinkResource.getStrDrinkThumb());
-                newCocktail.setIngredients(extractIngredientsFromDrink(drinkResource));
-                cocktail = cocktailRepository.save(newCocktail);
+        Map<String, CocktailEntity> allEntityMap = drinks.stream().map(drinkResource -> {
+            CocktailEntity cocktailEntity = existingEntityMap.get(drinkResource.getIdDrink());
+            if (cocktailEntity == null) {
+                CocktailEntity newCocktailEntity = new CocktailEntity();
+                newCocktailEntity.setId(UUID.randomUUID());
+                newCocktailEntity.setIdDrink(drinkResource.getIdDrink());
+                newCocktailEntity.setName(drinkResource.getStrDrink());
+                newCocktailEntity.setGlass(drinkResource.getStrGlass());
+                newCocktailEntity.setInstructions(drinkResource.getStrInstructions());
+                newCocktailEntity.setImageUrl(drinkResource.getStrDrinkThumb());
+                newCocktailEntity.setIngredients(extractIngredientsFromDrink(drinkResource));
+                cocktailEntity = cocktailRepository.save(newCocktailEntity);
             }
-            return cocktail;
-        }).collect(Collectors.toMap(Cocktail::getIdDrink, o -> o, (o, o2) -> o));
+            return cocktailEntity;
+        }).collect(Collectors.toMap(CocktailEntity::getIdDrink, o -> o, (o, o2) -> o));
 
-        //Merge drinks and our entities, transform to CocktailResource instances
+        //Merge drinks and our entities, transform to Cocktail instances
         return mergeAndTransform(drinks, allEntityMap);
     }
 
-    private List<CocktailResource> mergeAndTransform(List<DrinkResource> drinks, Map<String, Cocktail> allEntityMap) {
+    private List<Cocktail> mergeAndTransform(List<DrinkResource> drinks, Map<String, CocktailEntity> allEntityMap) {
         return drinks
                 .stream()
-                .map(drinkResource -> new CocktailResource(
+                .map(drinkResource -> new Cocktail(
                         allEntityMap.get(drinkResource.getIdDrink()).getId(),
                         drinkResource.getStrDrink(),
                         drinkResource.getStrGlass(),

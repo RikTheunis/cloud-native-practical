@@ -3,7 +3,7 @@ package com.ezgroceries.shoppinglist.controller.shoppinglist.contract;
 import java.util.List;
 import java.util.UUID;
 
-public class GetShoppingListOutputContract {
+public class GetShoppingListResponse {
 
     private UUID shoppingListId;
     private String name;

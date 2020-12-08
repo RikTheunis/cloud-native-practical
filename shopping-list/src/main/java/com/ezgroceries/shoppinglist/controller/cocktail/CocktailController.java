@@ -1,8 +1,8 @@
 package com.ezgroceries.shoppinglist.controller.cocktail;
 
-import com.ezgroceries.shoppinglist.controller.cocktail.contract.SearchCocktailOutputContract;
+import com.ezgroceries.shoppinglist.controller.cocktail.contract.SearchCocktailResponse;
 import com.ezgroceries.shoppinglist.service.cocktail.CocktailService;
-import com.ezgroceries.shoppinglist.service.cocktail.model.CocktailResource;
+import com.ezgroceries.shoppinglist.service.cocktail.model.Cocktail;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +22,12 @@ public class CocktailController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SearchCocktailOutputContract>> search(@RequestParam String search) {
-        List<CocktailResource> cocktailResources = cocktailService.searchCocktails(search);
+    public ResponseEntity<List<SearchCocktailResponse>> search(@RequestParam String search) {
+        List<Cocktail> cocktails = cocktailService.searchCocktails(search);
 
-        List<SearchCocktailOutputContract> outputList = cocktailResources.stream()
+        List<SearchCocktailResponse> outputList = cocktails.stream()
                 .map(cocktail -> {
-                    SearchCocktailOutputContract output = new SearchCocktailOutputContract();
+                    SearchCocktailResponse output = new SearchCocktailResponse();
 
                     output.setCocktailId(cocktail.getCocktailId());
                     output.setName(cocktail.getName());

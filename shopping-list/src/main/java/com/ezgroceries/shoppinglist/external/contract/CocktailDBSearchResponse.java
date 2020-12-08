@@ -2,7 +2,7 @@ package com.ezgroceries.shoppinglist.external.contract;
 
 import java.util.List;
 
-public class CocktailDBSearchOutputContract {
+public class CocktailDBSearchResponse {
     private List<DrinkResource> drinks;
 
     public List<DrinkResource> getDrinks() {
