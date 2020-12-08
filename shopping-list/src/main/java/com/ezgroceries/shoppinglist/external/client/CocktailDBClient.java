@@ -1,6 +1,6 @@
 package com.ezgroceries.shoppinglist.external.client;
 
-import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchOutputContract;
+import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchResponse;
 import com.ezgroceries.shoppinglist.external.contract.DrinkResource;
 import com.ezgroceries.shoppinglist.repository.cocktail.CocktailRepository;
 import com.ezgroceries.shoppinglist.repository.cocktail.entity.CocktailEntity;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CocktailDBClient {
 
     @GetMapping(value = "search.php", produces = "application/json")
-    CocktailDBSearchOutputContract searchCocktails(@RequestParam("s") String search);
+    CocktailDBSearchResponse searchCocktails(@RequestParam("s") String search);
 
     @Component
     class CocktailDBClientFallback implements CocktailDBClient {
@@ -29,10 +29,10 @@ public interface CocktailDBClient {
         }
 
         @Override
-        public CocktailDBSearchOutputContract searchCocktails(String search) {
+        public CocktailDBSearchResponse searchCocktails(String search) {
             List<CocktailEntity> cocktailEntities = cocktailRepository.findByNameContainingIgnoreCase(search);
 
-            CocktailDBSearchOutputContract cocktailDBResponse = new CocktailDBSearchOutputContract();
+            CocktailDBSearchResponse cocktailDBResponse = new CocktailDBSearchResponse();
             cocktailDBResponse.setDrinks(
                     cocktailEntities
                             .stream()

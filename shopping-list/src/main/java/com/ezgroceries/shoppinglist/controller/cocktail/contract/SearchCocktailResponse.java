@@ -3,7 +3,7 @@ package com.ezgroceries.shoppinglist.controller.cocktail.contract;
 import java.util.Set;
 import java.util.UUID;
 
-public class SearchCocktailOutputContract {
+public class SearchCocktailResponse {
 
     private UUID cocktailId;
     private String name;

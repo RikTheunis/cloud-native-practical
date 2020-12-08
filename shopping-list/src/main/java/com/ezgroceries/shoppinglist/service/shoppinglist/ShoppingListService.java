@@ -4,8 +4,8 @@ import com.ezgroceries.shoppinglist.repository.cocktail.CocktailRepository;
 import com.ezgroceries.shoppinglist.repository.cocktail.entity.CocktailEntity;
 import com.ezgroceries.shoppinglist.repository.shoppinglist.ShoppingListRepository;
 import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingListEntity;
-import com.ezgroceries.shoppinglist.service.cocktail.model.CocktailResource;
-import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingListResource;
+import com.ezgroceries.shoppinglist.service.cocktail.model.Cocktail;
+import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -31,14 +31,14 @@ public class ShoppingListService {
     @PreAuthorize("hasRole('USER') && #ownerName == principal.username")
     // PostAuthorize could be added
     // But PreAuthorize must be there because otherwise it is saved before authorization
-    public ShoppingListResource createEmptyShoppingList(String shoppingListName, String ownerName) {
+    public ShoppingList createEmptyShoppingList(String shoppingListName, String ownerName) {
         ShoppingListEntity shoppingListEntity = new ShoppingListEntity();
         shoppingListEntity.setName(shoppingListName);
         shoppingListEntity.setOwnerName(ownerName);
 
         shoppingListEntity = shoppingListRepository.save(shoppingListEntity);
 
-        return new ShoppingListResource(
+        return new ShoppingList(
                 shoppingListEntity.getId(),
                 shoppingListEntity.getName(),
                 shoppingListEntity.getOwnerName()
@@ -49,7 +49,7 @@ public class ShoppingListService {
             + "&& shoppingListRepository.getOne(#shoppingListId).ownerName == principal.username")
     // PostAuthorize could be added
     // But PreAuthorize must be there because otherwise it is saved before authorization
-    public ShoppingListResource addCocktailsToShoppingList(UUID shoppingListId, List<UUID> cocktailIds) {
+    public ShoppingList addCocktailsToShoppingList(UUID shoppingListId, List<UUID> cocktailIds) {
         ShoppingListEntity shoppingListEntity = shoppingListRepository.getOne(shoppingListId);
 
         List<CocktailEntity> cocktailsToBeAdded = cocktailIds.stream().map(cocktailId -> cocktailRepository.getOne(cocktailId)).collect(Collectors.toList());
@@ -60,11 +60,11 @@ public class ShoppingListService {
 
         shoppingListEntity = shoppingListRepository.save(shoppingListEntity);
 
-        return new ShoppingListResource(
+        return new ShoppingList(
                 shoppingListEntity.getId(),
                 shoppingListEntity.getName(),
                 shoppingListEntity.getOwnerName(),
-                shoppingListEntity.getCocktails().stream().map(cocktail1 -> new CocktailResource(
+                shoppingListEntity.getCocktails().stream().map(cocktail1 -> new Cocktail(
                             cocktail1.getId(),
                             cocktail1.getName(),
                             "",
@@ -79,14 +79,14 @@ public class ShoppingListService {
     // Don't know what is best practise though
     @PreAuthorize("hasRole('USER')")
     @PostAuthorize("returnObject.ownerName == principal.username")
-    public ShoppingListResource getShoppingList(UUID shoppingListId) {
+    public ShoppingList getShoppingList(UUID shoppingListId) {
         ShoppingListEntity shoppingListEntity = shoppingListRepository.getOne(shoppingListId);
 
-        return new ShoppingListResource(
+        return new ShoppingList(
                 shoppingListEntity.getId(),
                 shoppingListEntity.getName(),
                 shoppingListEntity.getOwnerName(),
-                shoppingListEntity.getCocktails().stream().map(cocktail1 -> new CocktailResource(
+                shoppingListEntity.getCocktails().stream().map(cocktail1 -> new Cocktail(
                         cocktail1.getId(),
                         cocktail1.getName(),
                         "",
@@ -99,17 +99,17 @@ public class ShoppingListService {
 
     @PreAuthorize("hasRole('USER')")
     @PostFilter("filterObject.ownerName == principal.username")
-    public List<ShoppingListResource> findAll() {
+    public List<ShoppingList> findAll() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         List<ShoppingListEntity> shoppingListEntities = shoppingListRepository.findByOwnerName(user.getUsername());
 
         return shoppingListEntities.stream()
-                .map(shoppingList -> new ShoppingListResource(
+                .map(shoppingList -> new ShoppingList(
                         shoppingList.getId(),
                         shoppingList.getName(),
                         shoppingList.getOwnerName(),
-                        shoppingList.getCocktails().stream().map(cocktail1 -> new CocktailResource(
+                        shoppingList.getCocktails().stream().map(cocktail1 -> new Cocktail(
                                 cocktail1.getId(),
                                 cocktail1.getName(),
                                 "",

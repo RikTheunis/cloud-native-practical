@@ -2,7 +2,7 @@ package com.ezgroceries.shoppinglist.controller.shoppinglist.contract;
 
 import java.util.UUID;
 
-public class CreateNewShoppingListOutputContract {
+public class CreateNewShoppingListResponse {
 
     private UUID shoppingListId;
     private String name;

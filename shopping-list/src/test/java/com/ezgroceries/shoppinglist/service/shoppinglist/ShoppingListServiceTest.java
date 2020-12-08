@@ -8,7 +8,7 @@ import com.ezgroceries.shoppinglist.repository.cocktail.CocktailRepository;
 import com.ezgroceries.shoppinglist.repository.cocktail.entity.CocktailEntity;
 import com.ezgroceries.shoppinglist.repository.shoppinglist.ShoppingListRepository;
 import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingListEntity;
-import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingListResource;
+import com.ezgroceries.shoppinglist.service.shoppinglist.model.ShoppingList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.UUID;
@@ -40,11 +40,11 @@ class ShoppingListServiceTest {
         when(shoppingListRepository.save(any(ShoppingListEntity.class))).thenReturn(mockShoppingListEntity);
 
         // perform call
-        ShoppingListResource actualShoppingListResource = shoppingListService.createEmptyShoppingList("Testname", "testUser");
+        ShoppingList actualShoppingList = shoppingListService.createEmptyShoppingList("Testname", "testUser");
 
         // verify
-        assertEquals(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"), actualShoppingListResource.getShoppingListId());
-        assertEquals("Testname", actualShoppingListResource.getName());
+        assertEquals(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"), actualShoppingList.getShoppingListId());
+        assertEquals("Testname", actualShoppingList.getName());
     }
 
     @Test
@@ -67,7 +67,7 @@ class ShoppingListServiceTest {
         when(shoppingListRepository.save(any(ShoppingListEntity.class))).thenReturn(mockShoppingListEntityAfterSave);
 
         // perform call
-        ShoppingListResource actualShoppingListResource = shoppingListService.addCocktailsToShoppingList(
+        ShoppingList actualShoppingList = shoppingListService.addCocktailsToShoppingList(
                 UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"),
                 Arrays.asList(
                         UUID.fromString("6e4f8d41-16fc-4c99-99a1-87e6079c228e")
@@ -75,9 +75,9 @@ class ShoppingListServiceTest {
         );
 
         // verify
-        assertEquals(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"), actualShoppingListResource.getShoppingListId());
-        assertEquals("Testname", actualShoppingListResource.getName());
-        assertEquals(1, actualShoppingListResource.getCocktails().size());
+        assertEquals(UUID.fromString("ff67c05b-5e98-4ea4-8db3-c4b106188063"), actualShoppingList.getShoppingListId());
+        assertEquals("Testname", actualShoppingList.getName());
+        assertEquals(1, actualShoppingList.getCocktails().size());
     }
 
     @Test

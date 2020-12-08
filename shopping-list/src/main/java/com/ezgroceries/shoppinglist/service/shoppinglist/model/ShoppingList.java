@@ -1,28 +1,28 @@
 package com.ezgroceries.shoppinglist.service.shoppinglist.model;
 
-import com.ezgroceries.shoppinglist.service.cocktail.model.CocktailResource;
+import com.ezgroceries.shoppinglist.service.cocktail.model.Cocktail;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class ShoppingListResource {
+public class ShoppingList {
 
     private UUID shoppingListId;
     private String name;
     private String ownerName;
-    private Set<CocktailResource> cocktails;
+    private Set<Cocktail> cocktails;
 
-    public ShoppingListResource(UUID shoppingListId, String name, String ownerName) {
+    public ShoppingList(UUID shoppingListId, String name, String ownerName) {
         this.shoppingListId = shoppingListId;
         this.name = name;
         this.ownerName = ownerName;
         this.cocktails = new HashSet<>();
     }
 
-    public ShoppingListResource(UUID shoppingListId, String name, String ownerName, Set<CocktailResource> cocktails) {
+    public ShoppingList(UUID shoppingListId, String name, String ownerName, Set<Cocktail> cocktails) {
         this.shoppingListId = shoppingListId;
         this.name = name;
-        this.ownerName = name;
+        this.ownerName = ownerName;
         this.cocktails = cocktails;
     }
 
@@ -50,15 +50,15 @@ public class ShoppingListResource {
         this.ownerName = ownerName;
     }
 
-    public Set<CocktailResource> getCocktails() {
+    public Set<Cocktail> getCocktails() {
         return cocktails;
     }
 
-    public void setCocktails(Set<CocktailResource> cocktails) {
+    public void setCocktails(Set<Cocktail> cocktails) {
         this.cocktails = cocktails;
     }
 
-    public void addCocktail(CocktailResource cocktail) {
+    public void addCocktail(Cocktail cocktail) {
         this.cocktails.add(cocktail);
     }
 }

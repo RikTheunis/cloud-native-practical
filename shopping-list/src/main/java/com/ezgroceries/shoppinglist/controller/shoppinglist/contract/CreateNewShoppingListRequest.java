@@ -1,6 +1,6 @@
 package com.ezgroceries.shoppinglist.controller.shoppinglist.contract;
 
-public class CreateNewShoppingListInputContract {
+public class CreateNewShoppingListRequest {
 
     private String name;
 
