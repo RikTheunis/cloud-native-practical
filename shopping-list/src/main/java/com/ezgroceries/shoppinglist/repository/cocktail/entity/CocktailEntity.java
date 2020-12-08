@@ -1,7 +1,7 @@
 package com.ezgroceries.shoppinglist.repository.cocktail.entity;
 
 import com.ezgroceries.shoppinglist.repository.cocktail.util.StringSetConverter;
-import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingList;
+import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingListEntity;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Convert;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "cocktail")
-public class Cocktail {
+public class CocktailEntity {
 
     @Id
     @GeneratedValue
@@ -33,7 +33,7 @@ public class Cocktail {
     private Set<String> ingredients;
 
     @ManyToMany(mappedBy = "cocktails")
-    private Set<ShoppingList> shoppingLists;
+    private Set<ShoppingListEntity> shoppingLists;
 
     public UUID getId() {
         return id;
@@ -91,11 +91,11 @@ public class Cocktail {
         this.ingredients = ingredients;
     }
 
-    public Set<ShoppingList> getShoppingLists() {
+    public Set<ShoppingListEntity> getShoppingLists() {
         return shoppingLists;
     }
 
-    public void setShoppingLists(Set<ShoppingList> shoppingLists) {
-        this.shoppingLists = shoppingLists;
+    public void setShoppingLists(Set<ShoppingListEntity> shoppingListEntities) {
+        this.shoppingLists = shoppingListEntities;
     }
 }

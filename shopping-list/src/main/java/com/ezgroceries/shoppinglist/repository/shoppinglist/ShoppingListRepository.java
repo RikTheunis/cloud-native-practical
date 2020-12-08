@@ -1,16 +1,16 @@
 package com.ezgroceries.shoppinglist.repository.shoppinglist;
 
-import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingList;
+import com.ezgroceries.shoppinglist.repository.shoppinglist.entity.ShoppingListEntity;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ShoppingListRepository extends JpaRepository<ShoppingList, UUID> {
+public interface ShoppingListRepository extends JpaRepository<ShoppingListEntity, UUID> {
 
-    List<ShoppingList> findByOwnerName(String ownerName);
+    List<ShoppingListEntity> findByOwnerName(String ownerName);
 
-    ShoppingList findFirstByIdAndOwnerName(UUID id, String ownerName);
+    ShoppingListEntity findFirstByIdAndOwnerName(UUID id, String ownerName);
 
 }

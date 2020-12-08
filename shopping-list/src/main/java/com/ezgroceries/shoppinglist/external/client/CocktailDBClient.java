@@ -3,7 +3,7 @@ package com.ezgroceries.shoppinglist.external.client;
 import com.ezgroceries.shoppinglist.external.contract.CocktailDBSearchOutputContract;
 import com.ezgroceries.shoppinglist.external.contract.DrinkResource;
 import com.ezgroceries.shoppinglist.repository.cocktail.CocktailRepository;
-import com.ezgroceries.shoppinglist.repository.cocktail.entity.Cocktail;
+import com.ezgroceries.shoppinglist.repository.cocktail.entity.CocktailEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +30,7 @@ public interface CocktailDBClient {
 
         @Override
         public CocktailDBSearchOutputContract searchCocktails(String search) {
-            List<Cocktail> cocktailEntities = cocktailRepository.findByNameContainingIgnoreCase(search);
+            List<CocktailEntity> cocktailEntities = cocktailRepository.findByNameContainingIgnoreCase(search);
 
             CocktailDBSearchOutputContract cocktailDBResponse = new CocktailDBSearchOutputContract();
             cocktailDBResponse.setDrinks(
@@ -43,16 +43,16 @@ public interface CocktailDBClient {
             return cocktailDBResponse;
         }
 
-        private static DrinkResource mapCocktailToDrinkResource(Cocktail cocktail) {
+        private static DrinkResource mapCocktailToDrinkResource(CocktailEntity cocktailEntity) {
             DrinkResource drinkResource = new DrinkResource();
-            drinkResource.setIdDrink(cocktail.getIdDrink());
-            drinkResource.setStrDrink(cocktail.getName());
-            drinkResource.setStrGlass(cocktail.getGlass());
-            drinkResource.setStrInstructions(cocktail.getInstructions());
-            drinkResource.setStrDrinkThumb(cocktail.getImageUrl());
+            drinkResource.setIdDrink(cocktailEntity.getIdDrink());
+            drinkResource.setStrDrink(cocktailEntity.getName());
+            drinkResource.setStrGlass(cocktailEntity.getGlass());
+            drinkResource.setStrInstructions(cocktailEntity.getInstructions());
+            drinkResource.setStrDrinkThumb(cocktailEntity.getImageUrl());
 
             // TODO refactor
-            List<String> ingredients = new ArrayList<>(cocktail.getIngredients());
+            List<String> ingredients = new ArrayList<>(cocktailEntity.getIngredients());
             drinkResource.setStrIngredient1(getOrNull(ingredients, 0));
             drinkResource.setStrIngredient2(getOrNull(ingredients, 1));
             drinkResource.setStrIngredient3(getOrNull(ingredients, 2));
