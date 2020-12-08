@@ -1,6 +1,7 @@
 package com.ezgroceries.shoppinglist.controller.shoppinglist;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -58,6 +59,7 @@ class ShoppingListControllerTest {
         mockMvc.perform(post("/shopping-lists")
                 .content(objectMapper.writeValueAsString(inputContract))
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf())
         )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType("application/json"))
@@ -95,6 +97,7 @@ class ShoppingListControllerTest {
         mockMvc.perform(post("/shopping-lists/{shoppingListId}/cocktails", SHOPPING_LIST_ID)
                 .content(objectMapper.writeValueAsString(input))
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf())
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
